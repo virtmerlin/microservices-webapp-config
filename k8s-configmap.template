@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: #SVC_NAME-host
+  namespace: microservices-webapp
+data:
+  hostname: #SVC_HOST
