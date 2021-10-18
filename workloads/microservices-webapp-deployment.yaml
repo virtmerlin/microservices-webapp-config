@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: microservices-webapp
+  namespace: microservices-webapp
+  labels:
+    app: microservices-webapp
+  annotations:
+    # Container Image Automated Updates
+    flux.weave.works/automated: "true"
+    # do not apply this manifest on the cluster
+    #flux.weave.works/ignore: "true"
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: microservices-webapp
+      fargate: 'true'
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: microservices-webapp
+        fargate: 'true'
+    spec:
+      containers:
+      - image: 987210092513.dkr.ecr.us-west-2.amazonaws.com/microservices-eks-webapp-codepipeline:latest
+        name: webapp
+        ports:
+        - containerPort: 8080
+          name: webapp
+        env:
+        - name: GREETING_SERVICE_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: greeting-host
+              key: hostname
+        - name: GREETING_SERVICE_PORT
+          value: "80"
+        - name: GREETING_SERVICE_PATH
+          value: "/resources/greeting"
+        - name: NAME_SERVICE_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: names-host
+              key: hostname
+        - name: NAME_SERVICE_PORT
+          value: "80"
+        - name: NAME_SERVICE_PATH
+          value: "/resources/names"
