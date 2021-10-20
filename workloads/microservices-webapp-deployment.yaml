@@ -26,7 +26,7 @@ spec:
         fargate: 'true'
     spec:
       containers:
-      - image: 987210092513.dkr.ecr.us-west-2.amazonaws.com/microservices-eks-webapp-codepipeline:latest
+      - image: 987210092513.dkr.ecr.us-west-2.amazonaws.com/microservices-eks-webapp-codepipeline:abc57e18
         name: webapp
         ports:
         - containerPort: 8080
