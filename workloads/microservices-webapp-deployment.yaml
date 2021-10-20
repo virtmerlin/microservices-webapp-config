@@ -12,7 +12,7 @@ metadata:
     # do not apply this manifest on the cluster
     #flux.weave.works/ignore: "true"
 spec:
-  replicas: 5
+  replicas: 3
   selector:
     matchLabels:
       app: microservices-webapp
